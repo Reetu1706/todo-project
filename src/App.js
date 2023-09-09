@@ -1,25 +1,51 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const Todo = () => {
+	const [todo, setTodo] = useState(' ');
+	const [list, setList] = useState([]);
 
-export default App;
+	const handleAddTodo = () => {
+		const newTodo = {
+				id: Math.random(),
+				todo: todo
+		};
+
+		setList([...list, newTodo]);
+        setTodo('');
+    };
+
+		const handleDeleteTodo = (id) => {
+			const newList = list.filter((todo) => todo.id !== id);
+			setList(newList);
+	};
+
+ const handleTodo = (event) => {
+			setTodo(event.target.value);
+	};
+
+
+return (
+	<div className="Todo">
+		<h1>To-Do</h1>
+
+		<div className="Top">
+                <input className="input" type="text" value={todo}
+                   onChange={handleTodo} placeholder="Todo...." />
+
+                <button className="btn" onClick={handleAddTodo}>ADD</button>
+            </div>
+						<ul className="items">
+                { list.map((todo) => (
+                    <li className="list" key={todo.id}>
+                        {todo.todo}
+                        <button onClick={() => handleDeleteTodo(todo.id)}>
+                           Delete
+                       </button>
+                    </li>
+                ))}
+            </ul>
+	</div>
+);
+};
+export default Todo;
